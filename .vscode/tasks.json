@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Deploy CDK",
+            "label": "Deploy All Stacks",
             "type": "shell",
-            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk deploy",
+            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk deploy --all",
             "group": "build",
             "presentation": {
                 "reveal": "always",
@@ -16,9 +16,33 @@
             }
         },
         {
-            "label": "Destroy CDK",
+            "label": "Deploy Stack",
             "type": "shell",
-            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk destroy",
+            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk deploy ${input:stacks}",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Destroy all Stack",
+            "type": "shell",
+            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk destroy --all",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Destroy Stack",
+            "type": "shell",
+            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk destroy ${input:stacks}",
             "group": "build",
             "presentation": {
                 "reveal": "always",
@@ -30,7 +54,7 @@
         {
             "label": "Synth CDK",
             "type": "shell",
-            "command": "source .venv/bin/activate; cdk synth",
+            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk synth",
             "group": "build",
             "presentation": {
                 "reveal": "always",
@@ -47,6 +71,14 @@
             "command": "shellCommand.execute",
             "args": {
                 "command": "aws configure list-profiles"
+            }
+        },
+        {
+            "id": "stacks",
+            "type": "command",
+            "command": "shellCommand.execute",
+            "args": {
+                "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk list"
             }
         }
     ]
