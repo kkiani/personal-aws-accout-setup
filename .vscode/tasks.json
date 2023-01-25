@@ -1,0 +1,53 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Deploy CDK",
+            "type": "shell",
+            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk deploy",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Destroy CDK",
+            "type": "shell",
+            "command": "source .venv/bin/activate; aws-vault exec --prompt=osascript ${input:accounts} -- cdk destroy",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "Synth CDK",
+            "type": "shell",
+            "command": "source .venv/bin/activate; cdk synth",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true,
+                "focus": true
+            }
+        },
+    ],
+    "inputs": [
+        {
+            "id": "accounts",
+            "type": "command",
+            "command": "shellCommand.execute",
+            "args": {
+                "command": "aws configure list-profiles"
+            }
+        }
+    ]
+}
