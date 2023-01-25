@@ -12,10 +12,11 @@ NetworkStack(
     'NetworkStack',
 )
 
-app.synth()
 
 # adding tags.
 cdk.Tags.of(app).add(
     key='owner',
     value='kiarash@datachef.co'
 )
+
+app.synth()
